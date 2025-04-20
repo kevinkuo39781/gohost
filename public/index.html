@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GoHost Upload</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 3rem auto; padding: 1rem; }
+        input, button { margin-top: 1rem; width: 100%; padding: 0.5rem; font-size: 1rem; }
+        .response { margin-top: 1rem; white-space: pre-wrap; background: #f3f3f3; padding: 1rem; border-radius: 5px; }
+    </style>
+</head>
+<body>
+<h1>🚀 GoHost - Upload Your Site</h1>
+
+<form id="uploadForm">
+    <label for="path">Custom Path (e.g. <code>myblog</code>)</label>
+    <input type="text" name="path" id="path" required />
+
+    <label for="file">ZIP File</label>
+    <input type="file" name="file" id="file" accept=".zip" required />
+
+    <button type="submit">Upload & Deploy</button>
+</form>
+
+<div id="response" class="response" hidden></div>
+
+<script>
+    const form = document.getElementById('uploadForm');
+    const responseBox = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const res = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const text = await res.text();
+        responseBox.hidden = false;
+        responseBox.textContent = text;
+    });
+</script>
+</body>
+</html>

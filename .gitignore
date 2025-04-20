@@ -1,0 +1,33 @@
+# Go build
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output binary
+/gohost
+
+# Logs
+*.log
+
+# Dependency directories
+vendor/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Upload data
+data/sites/*
+!data/sites/.gitkeep
+
+# Zip temp files
+*.zip
