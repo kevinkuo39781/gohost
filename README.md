@@ -78,4 +78,4 @@ http://localhost:8080/g/my-site/index.html
 
 ## 📝 License
 
-MIT © 2025 [Kevin Kuo](https://github.com/kevinkuo39781)
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
