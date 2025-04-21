@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/zip"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -24,6 +25,7 @@ func main() {
 
 	http.HandleFunc("/upload", uploadHandler)
 	http.HandleFunc("/g/", serveHandler)
+	http.HandleFunc("/sites", listSitesHandler)
 	http.HandleFunc("/", indexHandler)
 
 	fmt.Println("GoHost running at http://localhost:8080")
@@ -84,6 +86,24 @@ func serveHandler(w http.ResponseWriter, r *http.Request) {
 	path := strings.TrimPrefix(r.URL.Path, "/g/")
 	staticPath := filepath.Join(uploadDir, path)
 	http.ServeFile(w, r, staticPath)
+}
+
+func listSitesHandler(w http.ResponseWriter, r *http.Request) {
+	entries, err := os.ReadDir(uploadDir)
+	if err != nil {
+		http.Error(w, "Failed to read sites directory", http.StatusInternalServerError)
+		return
+	}
+
+	sites := []string{}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			sites = append(sites, entry.Name())
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(sites)
 }
 
 func unzip(src, dest string) error {
